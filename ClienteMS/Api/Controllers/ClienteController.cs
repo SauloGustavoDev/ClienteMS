@@ -15,6 +15,11 @@ namespace ClienteMS.Api.Controllers
         [HttpPost("CriarCliente")]
         public async Task<ActionResult> CriarCliente([FromBody] ClienteRequest cliente)
         {
+            if (cliente.Renda <= 0)
+                return BadRequest("é necessário informar uma renda valida");
+            if (string.IsNullOrWhiteSpace(cliente.Nome))
+                return BadRequest("é necessário informar o nome");
+
             var resultado = await _clienteApp.CriarClienteAsync(cliente);
 
             if (!resultado.Sucesso)
