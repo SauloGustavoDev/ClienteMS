@@ -1,7 +1,7 @@
-﻿namespace ClienteMS.Dominio.Eventos
+﻿namespace Rabbit.Dominio.Eventos
 {
     public class CartaoFalhaEvento
     {
-        public Guid ClienteId { get; set; }
+        public Guid IdCliente { get; set; }
     }
 }

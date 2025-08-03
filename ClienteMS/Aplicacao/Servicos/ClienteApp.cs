@@ -1,6 +1,4 @@
-﻿using CartaoMS.Dominio.Eventos;
-using ClienteMS.Aplicacao.Contratos;
-using ClienteMS.Dominio.Eventos;
+﻿using ClienteMS.Aplicacao.Contratos;
 using ClienteMS.Dominio.Models.DTOs;
 using ClienteMS.Dominio.Models.Request;
 using ClienteMS.Infraestrutura.Contexto;
@@ -9,6 +7,7 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Polly;
 using Polly.Retry;
+using Rabbit.Dominio.Eventos;
 
 namespace ClienteMS.Aplicacao.Servicos
 {
@@ -18,7 +17,6 @@ namespace ClienteMS.Aplicacao.Servicos
         private readonly IPublishEndpoint _bus;
         private readonly AsyncRetryPolicy _retryPolicy;
         private readonly ILogger<ClienteApp> _logger;
-
 
         public ClienteApp(SqlContexto contexto, IPublishEndpoint bus, ILogger<ClienteApp> logger)
         {
@@ -40,7 +38,7 @@ namespace ClienteMS.Aplicacao.Servicos
 
         public async Task GerarCartaoAsync(Guid id)
         {
-            await _retryPolicy.ExecuteAsync(() => _bus.Publish(new CriarCartaoEvento { idCliente = id}));
+            await _retryPolicy.ExecuteAsync(() => _bus.Publish(new CriarCartaoEvento { idCliente = id }));
         }
 
         public async Task<List<Cliente>> GetClientesAsync()
@@ -63,7 +61,6 @@ namespace ClienteMS.Aplicacao.Servicos
             return cliente;
         }
 
-
         public async Task<ReturnoDto<Cliente>> CriarClienteAsync(ClienteRequest cliente)
         {
             var clienteFormatado = MapearCliente(cliente);
@@ -75,7 +72,7 @@ namespace ClienteMS.Aplicacao.Servicos
                     await _sqlContexto.SaveChangesAsync();
                 });
                 // Usando Polly para garantir resiliência na publicação
-                await _retryPolicy.ExecuteAsync(() => _bus.Publish(new ClienteCriadoEvento {Id = clienteFormatado.Id, SimularErro = cliente.SimularErro }));
+                await _retryPolicy.ExecuteAsync(() => _bus.Publish(new ClienteCriadoEvento { Id = clienteFormatado.Id, SimularErro = cliente.SimularErro }));
                 _logger.LogInformation($"Cliente cadastrado e evento publicado com sucesso. ClienteId: {clienteFormatado.Id}");
 
                 return new ReturnoDto<Cliente>()

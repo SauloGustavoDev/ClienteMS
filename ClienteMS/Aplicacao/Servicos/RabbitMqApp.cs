@@ -1,10 +1,6 @@
-﻿using CartaoMS.Dominio.Eventos;
-using MassTransit;
+﻿using MassTransit;
 using Polly;
-using Polly.Retry;
 using RabbitMQ.Client;
-using RabbitMQ.Client.Exceptions;
-using System.Net.Sockets;
 
 namespace ClienteMS.Aplicacao.Servicos
 {
@@ -24,7 +20,8 @@ namespace ClienteMS.Aplicacao.Servicos
                 busConfigurator.AddConsumer<GerarPropostaConsumidor>();
                 busConfigurator.AddConsumer<GerarCartaoConsumidor>();
 
-                busConfigurator.UsingRabbitMq((ctx, cfg) => {
+                busConfigurator.UsingRabbitMq((ctx, cfg) =>
+                {
                     cfg.Host(new Uri(_config["RabbitConnection:host"]), host =>
                     {
                         host.Username(_config["RabbitConnection:username"]);

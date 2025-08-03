@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
 namespace ClienteMS.Modelos
 {
     public class Erro

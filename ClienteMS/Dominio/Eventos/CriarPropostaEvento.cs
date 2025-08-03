@@ -1,7 +1,7 @@
-﻿namespace ClienteMS.Dominio.Eventos
+﻿namespace Rabbit.Dominio.Eventos
 {
     public class CriarPropostaEvento
     {
-        public Guid idCliente { get; set; }
+        public Guid IdCliente { get; set; }
     }
 }

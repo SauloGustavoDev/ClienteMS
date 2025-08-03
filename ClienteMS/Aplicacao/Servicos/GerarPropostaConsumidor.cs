@@ -1,8 +1,8 @@
-﻿using ClienteMS.Dominio.Eventos;
-using ClienteMS.Infraestrutura.Contexto;
+﻿using ClienteMS.Infraestrutura.Contexto;
 using MassTransit;
 using Polly;
 using Polly.Retry;
+using Rabbit.Dominio.Eventos;
 
 namespace ClienteMS.Aplicacao.Servicos
 {
@@ -12,7 +12,6 @@ namespace ClienteMS.Aplicacao.Servicos
         private readonly IPublishEndpoint _bus;
         private readonly AsyncRetryPolicy _retryPolicy;
         private readonly ILogger<GerarPropostaConsumidor> _logger;
-
         public GerarPropostaConsumidor(SqlContexto contexto, IPublishEndpoint bus, ILogger<GerarPropostaConsumidor> logger)
         {
             _sqlContexto = contexto;
@@ -31,7 +30,7 @@ namespace ClienteMS.Aplicacao.Servicos
         }
         public async Task Consume(ConsumeContext<PropostaFalhaEvento> context)
         {
-            await _retryPolicy.ExecuteAsync(() => _bus.Publish(new CriarPropostaEvento { idCliente = context.Message.ClienteId }));
+            await _retryPolicy.ExecuteAsync(() => _bus.Publish(new CriarPropostaEvento { IdCliente = context.Message.ClienteId }));
         }
     }
 }

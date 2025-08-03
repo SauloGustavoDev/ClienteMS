@@ -23,7 +23,6 @@ namespace ClienteMS.Api.Controllers
             return Ok(); ;
         }
 
-
         [HttpGet("GetClientes")]
         public async Task<ActionResult> GetClientes()
         {
@@ -32,14 +31,14 @@ namespace ClienteMS.Api.Controllers
         }
 
         [HttpGet("GetCliente")]
-        public async Task<ActionResult> GetCliente([FromBody]Guid id)
+        public async Task<ActionResult> GetCliente([FromHeader] Guid id)
         {
             var result = await _clienteApp.GetClienteAsync(id);
-            return Ok(result); 
+            return Ok(result);
         }
 
         [HttpPost("GerarCartaoCliente")]
-        public async Task<ActionResult> GerarCartaoCliente([FromBody]Guid idCliente)
+        public async Task<ActionResult> GerarCartaoCliente([FromBody] Guid idCliente)
         {
             await _clienteApp.GerarCartaoAsync(idCliente);
             return Ok();

@@ -1,6 +1,5 @@
 ﻿using ClienteMS.Enum;
 using System.ComponentModel.DataAnnotations;
-
 namespace ClienteMS.Modelos
 {
     public class Proposta
@@ -8,6 +7,6 @@ namespace ClienteMS.Modelos
         [Key]
         public Guid Id { get; set; }
         public decimal ValorOfertado { get; set; }
-        public StatusProposta Status {get; set;}
+        public StatusProposta Status { get; set; }
     }
 }

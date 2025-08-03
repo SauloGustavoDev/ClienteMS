@@ -1,10 +1,8 @@
-﻿using CartaoMS.Dominio.Eventos;
-using ClienteMS.Dominio.Eventos;
-using ClienteMS.Infraestrutura.Contexto;
-using ClienteMS.Modelos;
+﻿using ClienteMS.Infraestrutura.Contexto;
 using MassTransit;
 using Polly;
 using Polly.Retry;
+using Rabbit.Dominio.Eventos;
 
 namespace ClienteMS.Aplicacao.Servicos
 {
@@ -33,7 +31,7 @@ namespace ClienteMS.Aplicacao.Servicos
         }
         public async Task Consume(ConsumeContext<CartaoFalhaEvento> context)
         {
-            await _retryPolicy.ExecuteAsync(() => _bus.Publish(new CriarCartaoEvento { idCliente = context.Message.ClienteId}));
+            await _retryPolicy.ExecuteAsync(() => _bus.Publish(new CriarCartaoEvento { idCliente = context.Message.IdCliente }));
         }
     }
 }

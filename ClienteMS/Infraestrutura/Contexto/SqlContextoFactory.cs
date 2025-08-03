@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-
 namespace ClienteMS.Infraestrutura.Contexto
 {
     public class SqlContextoFactory : IDesignTimeDbContextFactory<SqlContexto>
