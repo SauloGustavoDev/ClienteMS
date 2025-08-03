@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Shared.Modelos;
+﻿using ClienteMS.Modelos;
+using Microsoft.EntityFrameworkCore;
 
 namespace ClienteMS.Infraestrutura.Contexto
 {

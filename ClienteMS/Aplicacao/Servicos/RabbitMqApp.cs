@@ -21,6 +21,9 @@ namespace ClienteMS.Aplicacao.Servicos
 
             services.AddMassTransit(busConfigurator =>
             {
+                busConfigurator.AddConsumer<GerarPropostaConsumidor>();
+                busConfigurator.AddConsumer<GerarCartaoConsumidor>();
+
                 busConfigurator.UsingRabbitMq((ctx, cfg) => {
                     cfg.Host(new Uri(_config["RabbitConnection:host"]), host =>
                     {
@@ -28,7 +31,14 @@ namespace ClienteMS.Aplicacao.Servicos
                         host.Password(_config["RabbitConnection:password"]);
                     });
 
-                    cfg.ConfigureEndpoints(ctx);
+                    cfg.ReceiveEndpoint("regerar-proposta-cliente", e =>
+                    {
+                        e.ConfigureConsumer<GerarPropostaConsumidor>(ctx);
+                    });
+                    cfg.ReceiveEndpoint("regerar-cartao-cliente", e =>
+                    {
+                        e.ConfigureConsumer<GerarCartaoConsumidor>(ctx);
+                    });
                 });
             });
         }

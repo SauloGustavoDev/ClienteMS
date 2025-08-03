@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shared.Enum
+namespace ClienteMS.Enum
 {
     public enum StatusProposta
     {

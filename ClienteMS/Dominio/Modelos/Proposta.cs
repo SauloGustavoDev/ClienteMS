@@ -1,8 +1,7 @@
-﻿
-using Shared.Enum;
+﻿using ClienteMS.Enum;
 using System.ComponentModel.DataAnnotations;
 
-namespace Shared.Modelos
+namespace ClienteMS.Modelos
 {
     public class Proposta
     {
