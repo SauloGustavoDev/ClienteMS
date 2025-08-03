@@ -71,7 +71,6 @@ namespace ClienteMS.Aplicacao.Servicos
                     await _sqlContexto.AddAsync(clienteFormatado);
                     await _sqlContexto.SaveChangesAsync();
                 });
-                // Usando Polly para garantir resiliência na publicação
                 await _retryPolicy.ExecuteAsync(() => _bus.Publish(new ClienteCriadoEvento { Id = clienteFormatado.Id, SimularErro = cliente.SimularErro }));
                 _logger.LogInformation($"Cliente cadastrado e evento publicado com sucesso. ClienteId: {clienteFormatado.Id}");
 
